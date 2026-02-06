@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,7 @@ return new class extends Migration
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('categoria_id')->constrained('categorias');
             $table->string('nome');
             $table->float('preco');
             $table->integer('quantidade');
@@ -26,6 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('produtos');
+        Schema::table('produtos', function (Blueprint $table) {
+            // Remove a FK e a coluna caso desfaça a migration
+            $table->dropForeign(['categoria_id']);
+            $table->dropColumn('categoria_id');
+        });
     }
 };
