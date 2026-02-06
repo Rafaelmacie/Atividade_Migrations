@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categoria_id')->constrained('categorias');
+            $table->foreignId('categoria_id')->constrained('categorias')->cascadeOnDelete();
             $table->string('nome');
             $table->float('preco');
             $table->integer('quantidade');
